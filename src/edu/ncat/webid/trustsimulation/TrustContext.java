@@ -18,7 +18,6 @@ public class TrustContext implements ContextBuilder<Object> {
 		for(int i=0; i<props.length; i++) {
 			props[i] = rBoolean.nextBoolean();
 		}
-		
 		NetworkBuilder<Object> builder = new NetworkBuilder<Object>("Network", context, true);
 		try {
 			builder.load("dolphins.xls", NetworkFileFormat.EXCEL, new TrustNodeCreator(props));

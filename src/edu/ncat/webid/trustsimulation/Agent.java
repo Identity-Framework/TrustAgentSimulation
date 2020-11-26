@@ -1,9 +1,11 @@
 package edu.ncat.webid.trustsimulation;
 
 import repast.simphony.engine.environment.RunEnvironment;
+import repast.simphony.engine.graph.NetworkTraverser;
 import repast.simphony.engine.schedule.ScheduledMethod;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 
 import repast.simphony.context.Context;
 import repast.simphony.parameter.Parameters;
@@ -20,6 +22,10 @@ public class Agent {
 	
 	private boolean[] props;
 	
+	private double propTruth;
+	
+	private Iterator netIT;
+	
 	public Agent(String label, boolean[] props) {
 		agentName = label;
 		agentParams = RunEnvironment.getInstance().getParameters();
@@ -27,8 +33,10 @@ public class Agent {
 		neighbors = new ArrayList();
 		this.props = props;
 		
+		propTruth = Math.random();
 	}
 	
+	@ScheduledMethod(start=0)
 	public void init() {
 		Context context = ContextUtils.getContext(this);
 		
@@ -39,9 +47,11 @@ public class Agent {
 		for(Object o: it) {
 			neighbors.add(o);
 		}
+		
+		NetworkTraverser nt = new NetworkTraverser(net);
 	}
 	
-	@ScheduledMethod()
+	@ScheduledMethod(start=1, interval=1)
 	public void step() {
 		
 	}
