@@ -14,23 +14,19 @@ public class Agent {
 	private Parameters agentParams;
 	private String agentName;
 	
-	private double posInteractRate;
-	
-	private int posInteract;
-	private int negInteract;
-	
 	Network net;
 	
 	private ArrayList neighbors;
 	
+	private boolean[] props;
 	
-	
-	public Agent(String label) {
+	public Agent(String label, boolean[] props) {
 		agentName = label;
 		agentParams = RunEnvironment.getInstance().getParameters();
 		
-		posInteractRate = agentParams.getDouble("InitialPositiveInteractionRate");
 		neighbors = new ArrayList();
+		this.props = props;
+		
 	}
 	
 	public void init() {
@@ -40,7 +36,9 @@ public class Agent {
 		
 		Iterable it = net.getAdjacent(this);
 		
-		for
+		for(Object o: it) {
+			neighbors.add(o);
+		}
 	}
 	
 	@ScheduledMethod()
