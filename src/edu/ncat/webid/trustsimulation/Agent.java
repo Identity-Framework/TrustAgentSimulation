@@ -31,7 +31,7 @@ public class Agent {
 	
 	private int prop;
 	
-	private HashMap<String, Object> trust;
+	private HashMap<String, AgentTrustInformation> trust;
 	
 	public Agent(String label, boolean[] props) {
 		setAgentName(label);
@@ -44,7 +44,7 @@ public class Agent {
 		
 		prop = (int)Math.random()*50;
 		
-		trust = new HashMap<String, Object>();
+		trust = new HashMap<String, AgentTrustInformation>();
 	}
 	
 	@ScheduledMethod(start=0)
@@ -69,11 +69,21 @@ public class Agent {
 		
 		if(netIT != null || netIT.hasNext()) {
 			neighbor = (Agent) netIT.next();
+			
+			if(!trust.containsKey(neighbor.getAgentName())) {
+				
+			}
+			
 		}
 		
 		else {
 			int rdmIdx = (int)Math.random()*neighbors.size();
 			neighbor = (Agent) neighbors.get(rdmIdx);
+			
+			if(!trust.containsKey(neighbor.getAgentName())) {
+				trust.put(neighbor.getAgentName(), new AgentTrustInformation());
+				trust.get(neighbor.getAgentName()).setTransTrust(0.0);
+			}
 			
 			netIT = nt.getSuccessors(this, neighbor);
 		}
