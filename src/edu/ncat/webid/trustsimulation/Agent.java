@@ -13,7 +13,7 @@ import repast.simphony.space.graph.Network;
 import repast.simphony.util.ContextUtils;
 
 public class Agent {
-	private Parameters agentParams;
+//	private Parameters agentParams;
 	private String agentName;
 	
 	Network net;
@@ -22,18 +22,22 @@ public class Agent {
 	
 	private boolean[] props;
 	
-	private double propTruth;
+	private double probTruth;
 	
 	private Iterator netIT;
 	
+	private int prop;
+	
 	public Agent(String label, boolean[] props) {
 		agentName = label;
-		agentParams = RunEnvironment.getInstance().getParameters();
+//		agentParams = RunEnvironment.getInstance().getParameters();
 		
 		neighbors = new ArrayList();
 		this.props = props;
 		
-		propTruth = Math.random();
+		probTruth = Math.random();
+		
+		prop = (int)Math.random()*50;
 	}
 	
 	@ScheduledMethod(start=0)
@@ -49,10 +53,22 @@ public class Agent {
 		}
 		
 		NetworkTraverser nt = new NetworkTraverser(net);
+		
 	}
 	
 	@ScheduledMethod(start=1, interval=1)
 	public void step() {
+		
+	}
+	
+	public boolean speak() {
+		double truth = Math.random();
+		if(truth >= probTruth) {
+			return props[prop];
+		}
+		else {
+			return !props[prop];
+		}
 		
 	}
 	
