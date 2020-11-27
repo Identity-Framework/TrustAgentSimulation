@@ -5,6 +5,7 @@ import repast.simphony.engine.graph.NetworkTraverser;
 import repast.simphony.engine.schedule.ScheduledMethod;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Iterator;
 
 import repast.simphony.context.Context;
@@ -16,7 +17,9 @@ public class Agent {
 //	private Parameters agentParams;
 	private String agentName;
 	
-	Network net;
+	private Network net;
+	
+	private NetworkTraverser nt;
 	
 	private ArrayList neighbors;
 	
@@ -28,8 +31,10 @@ public class Agent {
 	
 	private int prop;
 	
+	private HashMap<String, Object> trust;
+	
 	public Agent(String label, boolean[] props) {
-		agentName = label;
+		setAgentName(label);
 //		agentParams = RunEnvironment.getInstance().getParameters();
 		
 		neighbors = new ArrayList();
@@ -38,6 +43,8 @@ public class Agent {
 		probTruth = Math.random();
 		
 		prop = (int)Math.random()*50;
+		
+		trust = new HashMap<String, Object>();
 	}
 	
 	@ScheduledMethod(start=0)
@@ -52,12 +59,26 @@ public class Agent {
 			neighbors.add(o);
 		}
 		
-		NetworkTraverser nt = new NetworkTraverser(net);
+		nt = new NetworkTraverser(net);
 		
 	}
 	
 	@ScheduledMethod(start=1, interval=1)
 	public void step() {
+		Agent neighbor;
+		
+		if(netIT != null || netIT.hasNext()) {
+			neighbor = (Agent) netIT.next();
+		}
+		
+		else {
+			int rdmIdx = (int)Math.random()*neighbors.size();
+			neighbor = (Agent) neighbors.get(rdmIdx);
+			
+			netIT = nt.getSuccessors(this, neighbor);
+		}
+		
+		
 		
 	}
 	
@@ -70,6 +91,14 @@ public class Agent {
 			return !props[prop];
 		}
 		
+	}
+
+	public String getAgentName() {
+		return agentName;
+	}
+
+	public void setAgentName(String agentName) {
+		this.agentName = agentName;
 	}
 	
 }
