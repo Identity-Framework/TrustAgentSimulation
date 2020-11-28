@@ -28,6 +28,7 @@ public class TrustContext implements ContextBuilder<Object> {
 			e.printStackTrace();
 		}
 		
+		
 		return context;
 	}
 

@@ -19,17 +19,15 @@ public class Agent {
 	
 	private Network net;
 	
-	private NetworkTraverser nt;
-	
 	private ArrayList neighbors;
 	
 	private boolean[] props;
 	
 	private double probTruth;
 	
-	private Iterator netIT;
-	
 	private int prop;
+	
+	private HashMap<String, ArrayList<Integer>> expertInfo;
 	
 	private HashMap<String, AgentTrustInformation> trust;
 	
@@ -45,6 +43,8 @@ public class Agent {
 		prop = (int)Math.random()*50;
 		
 		trust = new HashMap<String, AgentTrustInformation>();
+		
+		expertInfo = new HashMap<String, ArrayList<Integer>>();
 	}
 	
 	@ScheduledMethod(start=0)
@@ -59,41 +59,19 @@ public class Agent {
 			neighbors.add(o);
 		}
 		
-		nt = new NetworkTraverser(net);
-		
 	}
 	
 	@ScheduledMethod(start=1, interval=1)
 	public void step() {
 		Agent neighbor;
 		
-		if(netIT != null || netIT.hasNext()) {
-			neighbor = (Agent) netIT.next();
-			
-			if(!trust.containsKey(neighbor.getAgentName())) {
-				trust.put(neighbor.getAgentName(), new AgentTrustInformation());
-				trust.get(neighbor.getAgentName()).setTransTrust(findTrust(neighbor));
-			}
-			
-		}
-		
-		else {
-			int rdmIdx = (int)Math.random()*neighbors.size();
-			neighbor = (Agent) neighbors.get(rdmIdx);
-			
-			if(!trust.containsKey(neighbor.getAgentName())) {
-				trust.put(neighbor.getAgentName(), new AgentTrustInformation());
-				trust.get(neighbor.getAgentName()).setTransTrust(0.0);
-			}
-			
-			netIT = nt.getSuccessors(this, neighbor);
-		}
+		NetworkTraverser nt = new NetworkTraverser(net);
 		
 		
 		
 	}
 	
-	public boolean speak() {
+	public boolean speak(int prop) {
 		double truth = Math.random();
 		if(truth >= probTruth) {
 			return props[prop];
@@ -101,6 +79,10 @@ public class Agent {
 		else {
 			return !props[prop];
 		}
+		
+	}
+	
+	public String askExpert(int prop) {
 		
 	}
 
