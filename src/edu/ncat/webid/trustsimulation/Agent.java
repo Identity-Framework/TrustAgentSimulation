@@ -71,7 +71,8 @@ public class Agent {
 			neighbor = (Agent) netIT.next();
 			
 			if(!trust.containsKey(neighbor.getAgentName())) {
-				
+				trust.put(neighbor.getAgentName(), new AgentTrustInformation());
+				trust.get(neighbor.getAgentName()).setTransTrust(findTrust(neighbor));
 			}
 			
 		}
@@ -109,6 +110,10 @@ public class Agent {
 
 	public void setAgentName(String agentName) {
 		this.agentName = agentName;
+	}
+	
+	public double findTrust(Agent ag) {
+		return 0.0;
 	}
 	
 }

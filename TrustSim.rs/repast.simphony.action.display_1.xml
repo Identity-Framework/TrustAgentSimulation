@@ -1,0 +1,6 @@
+<repast.simphony.visualization.engine.CartesianDisplayDescriptor simphonyVersion="2.6.0">
+  <name>Flock Display</name>
+  <type>3D</type>
+  <styles>
+  </styles>
+</repast.simphony.visualization.engine.CartesianDisplayDescriptor>

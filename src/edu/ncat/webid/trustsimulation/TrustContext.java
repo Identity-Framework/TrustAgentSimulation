@@ -12,6 +12,9 @@ public class TrustContext implements ContextBuilder<Object> {
 
 	@Override
 	public Context<Object> build(Context<Object> context) {
+		
+		context.setId("TrustSim");
+		
 		boolean[] props = new boolean[50];
 		Random rBoolean = new Random();
 		
