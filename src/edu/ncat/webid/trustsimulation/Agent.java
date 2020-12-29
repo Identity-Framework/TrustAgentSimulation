@@ -31,6 +31,10 @@ public class Agent {
 	
 	private HashMap<String, AgentTrustInformation> trust;
 	
+	private NetworkTraverser nt;
+	
+	private ArrayList<Integer> expertise;
+	
 	public Agent(String label, boolean[] props) {
 		setAgentName(label);
 //		agentParams = RunEnvironment.getInstance().getParameters();
@@ -45,6 +49,8 @@ public class Agent {
 		trust = new HashMap<String, AgentTrustInformation>();
 		
 		expertInfo = new HashMap<String, ArrayList<Integer>>();
+		
+		nt = new NetworkTraverser(net);
 	}
 	
 	@ScheduledMethod(start=0)
@@ -63,11 +69,18 @@ public class Agent {
 	
 	@ScheduledMethod(start=1, interval=1)
 	public void step() {
-		Agent neighbor;
+		Agent neighbor = null;
+		Iterator netIter;
 		
-		NetworkTraverser nt = new NetworkTraverser(net);
+		int count = 0;
+		int prop = 0;
 		
-		
+		while(neighbor == null) {
+			if(((Agent)neighbors.get(count)).askExpert(prop)) {
+				neighbor = (Agent)neighbors.get(count);
+			}
+			
+		}
 		
 	}
 	
@@ -82,8 +95,8 @@ public class Agent {
 		
 	}
 	
-	public String askExpert(int prop) {
-		
+	public boolean askExpert(int prop) {
+		return expertise.contains(prop);
 	}
 
 	public String getAgentName() {
